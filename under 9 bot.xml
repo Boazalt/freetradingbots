@@ -3,6 +3,7 @@
     <variable id="/~-+mmFsYGB%~WTzS%,g">Stake</variable>
     <variable id="{7yeazK[c_W:Gc`5f6!/">currentPrediction</variable>
     <variable id="63RXsB.,!h.qxxT/Squh">list</variable>
+    <variable id="stopLoss">stopLoss</variable>
   </variables>
   <block type="trade_definition" id="X83_Zw!nF_Y?cq$A[1AV" deletable="false" x="0" y="0">
     <statement name="TRADE_OPTIONS">
@@ -118,74 +119,159 @@
             <value name="AMOUNT">
               <shadow type="math_number_positive" id=".TA9,v2GNoV6nI5?byhO">
                 <field name="NUM">1</field>
-              </shadow>
-              <block type="variables_get" id="Kn=aJ!*feL~vJ;2yabeO">
-                <field name="VAR" id="/~-+mmFsYGB%~WTzS%,g">Stake</field>
-              </block>
-            </value>
-            <value name="PREDICTION">
-              <shadow type="math_number_positive" id="(d}qK2.N9YeoNY%Gf2dW" inline="true">
-                <field name="NUM">1</field>
-              </shadow>
-              <block type="lists_getIndex" id="S,{n?{w.+*$XS~-Ze(ze">
-                <mutation xmlns="http://www.w3.org/1999/xhtml" statement="false" at="true"></mutation>
-                <field name="MODE">GET</field>
-                <field name="WHERE">FROM_START</field>
-                <value name="VALUE">
-                  <block type="variables_get" id="IPA=4bGbcJb7mbBGqdr3">
-                    <field name="VAR" id="63RXsB.,!h.qxxT/Squh">list</field>
-                  </block>
-                </value>
-                <value name="AT">
-                  <block type="variables_get" id="`p=f65{ERHhwA7WFFoAu">
-                    <field name="VAR" id="{7yeazK[c_W:Gc`5f6!/">currentPrediction</field>
-                  </block>
-                </value>
-              </block>
-            </value>
-          </block>
-        </next>
-      </block>
-    </statement>
-  </block>
-  <block type="during_purchase" id="QeUu``I2!~IIM,SvA{`3" x="1005" y="0">
-    <statement name="DURING_PURCHASE_STACK">
-      <block type="controls_if" id="xhm_:DB:lS|e?7vv,zgZ">
-        <value name="IF0">
-          <block type="check_sell" id="*!O5V.Pd!u29W7-ULdjP"></block>
-        </value>
-      </block>
-    </statement>
-  </block>
-  <block type="after_purchase" id="Z9Lw[3+2h{0kfug-C1L/" x="1005" y="232">
-    <statement name="AFTERPURCHASE_STACK">
-      <block type="controls_if" id="AQpJsuv2V^VTUd9B}U,B">
-        <value name="IF0">
-          <block type="contract_check_result" id="`LU=1V6Pmvg_D@H-T`_*">
-            <field name="CHECK_RESULT">win</field>
-          </block>
-        </value>
-        <statement name="DO0">
-          <block type="variables_set" id="%u/dlROTgrE|3G`vY):=">
-            <field name="VAR" id="{7yeazK[c_W:Gc`5f6!/">currentPrediction</field>
-            <value name="VALUE">
-              <block type="math_number" id="R|4|21;I{s.-JgTEP;3$">
-                <field name="NUM">0</field>
-              </block>
-            </value>
-          </block>
-        </statement>
-        <next>
-          <block type="trade_again" id="n#J??vA$sh1^;9-XSOy*"></block>
-        </next>
-      </block>
-    </statement>
-  </block>
-  <block type="before_purchase" id="~:qI#Y|0yU)LyXScyrh3" deletable="false" x="0" y="1000">
-    <statement name="BEFOREPURCHASE_STACK">
-      <block type="purchase" id="_~Hc_YPMsa+9C%=Q*(Dy">
-        <field name="PURCHASE_LIST">DIGITUNDER</field>
-      </block>
-    </statement>
+                <block type="variables_get" id="Kn=aJ!*feL~vJ;2yabeO">
+                  <field name="VAR" id="/~-+mmFsYGB%~WTzS%,g">Stake</field>
+                </block>
+              </value>
+              <value name="PREDICTION">
+                <shadow type="math_number_positive" id="(d}qK2.N9YeoNY%Gf2dW" inline="true">
+                  <field name="NUM">1</field>
+                </shadow>
+                <block type="lists_getIndex" id="S,{n?{w.+*$XS~-Ze(ze">
+                  <mutation xmlns="http://www.w3.org/1999/xhtml" statement="false" at="true"></mutation>
+                  <field name="MODE">GET</field>
+                  <field name="WHERE">FROM_START</field>
+                  <value name="VALUE">
+                    <block type="variables_get" id="IPA=4bGbcJb7mbBGqdr3">
+                      <field name="VAR" id="63RXsB.,!h.qxxT/Squh">list</field>
+                    </block>
+                  </value>
+                  <value name="AT">
+                    <block type="variables_get" id="`p=f65{ERHhwA7WFFoAu">
+                      <field name="VAR" id="{7yeazK[c_W:Gc`5f6!/">currentPrediction</field>
+                    </block>
+                  </value>
+                </block>
+              </value>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+    <block type="during_purchase" id="QeUu``I2!~IIM,SvA{`3" x="1005" y="0">
+      <statement name="DURING_PURCHASE_STACK">
+        <block type="controls_if" id="xhm_:DB:lS|e?7vv,zgZ">
+          <value name="IF0">
+            <block type="check_sell" id="*!O5V.Pd!u29W7-ULdjP"></block>
+          </value>
+        </block>
+      </statement>
+    </block>
+    <block type="after_purchase" id="Z9Lw[3+2h{0kfug-C1L/" x="1005" y="232">
+      <statement name="AFTERPURCHASE_STACK">
+        <block type="controls_if" id="AQpJsuv2V^VTUd9B}U,B">
+          <value name="IF0">
+            <block type="contract_check_result" id="`LU=1V6Pmvg_D@H-T`_*">
+              <field name="CHECK_RESULT">win</field>
+            </block>
+          </value>
+          <statement name="DO0">
+            <block type="variables_set" id="%u/dlROTgrE|3G`vY):=">
+              <field name="VAR" id="{7yeazK[c_W:Gc`5f6!/">currentPrediction</field>
+              <value name="VALUE">
+                <block type="math_number" id="R|4|21;I{s.-JgTEP;3$">
+                  <field name="NUM">0</field>
+                </block>
+              </value>
+            </block>
+          </statement>
+          <next>
+            <block type="trade_again" id="n#J??vA$sh1^;9-XSOy*"></block>
+          </next>
+        </block>
+      </statement>
+    </block>
+    <block type="before_purchase" id="~:qI#Y|0yU)LyXScyrh3" deletable="false" x="0" y="1000">
+      <statement name="BEFOREPURCHASE_STACK">
+        <block type="controls_if" id="stopLossCheck">
+          <value name="IF0">
+            <block type="logic_compare" id="lossCondition">
+              <field name="OP">GTE</field>
+              <value name="A">
+                <block type="variables_get" id="getPrediction">
+                  <field name="VAR" id="{7yeazK[c_W:Gc`5f6!/">currentPrediction</field>
+                </block>
+              </value>
+              <value name="B">
+                <block type="math_number" id="stopLossValue">
+                  <field name="NUM">4</field>
+                </block>
+              </value>
+            </block>
+          </value>
+          <statement name="DO0">
+            <block type="variables_set" id="setStopLoss">
+              <field name="VAR" id="stopLoss">stopLoss</field>
+              <value name="VALUE">
+                <block type="math_number" id="stopLossTrue">
+                  <field name="NUM">1</field>
+                </block>
+              </value>
+            </block>
+          </statement>
+          <next>
+            <block type="controls_if" id="stopLossAction">
+              <value name="IF0">
+                <block type="logic_compare" id="checkStopLoss">
+                  <field name="OP">EQ</field>
+                  <value name="A">
+                    <block type="variables_get" id="getStopLoss">
+                      <field name="VAR" id="stopLoss">stopLoss</field>
+                    </block>
+                  </value>
+                  <value name="B">
+                    <block type="math_number" id="checkStopLossValue">
+                      <field name="NUM">1</field>
+                    </block>
+                  </value>
+                </block>
+              </value>
+              <statement name="DO0">
+                <block type="purchase" id="stopLossPurchase">
+                  <field name="PURCHASE_LIST">DIGITOVER</field>
+                </block>
+              </statement>
+              <next>
+                <block type="controls_if" id="recoverAction">
+                  <value name="IF0">
+                    <block type="logic_compare" id="checkRecovery">
+                      <field name="OP">LT</field>
+                      <value name="A">
+                        <block type="math_number" id="checkRecoveryValue">
+                          <field name="NUM">5</field>
+                        </block>
+                        <block type="variables_get" id="getDigit">
+                          <field name="VAR" id="{7yeazK[c_W:Gc`5f6!/">currentPrediction</field>
+                        </block>
+                      </value>
+                      <value name="B">
+                        <block type="math_number" id="recoveryValue">
+                          <field name="NUM">5</field>
+                        </block>
+                      </value>
+                    </block>
+                  </value>
+                  <statement name="DO0">
+                    <block type="variables_set" id="resetStopLoss">
+                      <field name="VAR" id="stopLoss">stopLoss</field>
+                      <value name="VALUE">
+                        <block type="math_number" id="resetStopLossValue">
+                          <field name="NUM">0</field>
+                        </block>
+                      </value>
+                    </block>
+                    <next>
+                      <block type="purchase" id="recoveryPurchase">
+                        <field name="PURCHASE_LIST">DIGITUNDER</field>
+                      </block>
+                    </next>
+                  </statement>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
   </block>
 </xml>
