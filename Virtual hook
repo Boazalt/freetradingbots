@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml xmlns="https://developers.google.com/blockly/xml">
+
+  <variables>
+    <variable id="run_count">run_count</variable>
+    <variable id="loss_count">loss_count</variable>
+    <variable id="low_streak">low_streak</variable>
+  </variables>
+
+  <!-- INIT -->
+  <block type="variables_set" x="10" y="10">
+    <field name="VAR" id="run_count">run_count</field>
+    <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+    <next>
+      <block type="variables_set">
+        <field name="VAR" id="loss_count">loss_count</field>
+        <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+        <next>
+          <block type="variables_set">
+            <field name="VAR" id="low_streak">low_streak</field>
+            <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+
+  <!-- TICK LOGIC -->
+  <block type="tick" x="10" y="150">
+    <statement name="DO">
+      <block type="controls_if">
+
+        <!-- IF digit <=3 -->
+        <value name="IF0">
+          <block type="math_arithmetic">
+            <field name="OP">LTE</field>
+            <value name="A"><block type="last_digit"></block></value>
+            <value name="B"><block type="math_number"><field name="NUM">3</field></block></value>
+          </block>
+        </value>
+
+        <statement name="DO0">
+          <block type="variables_set">
+            <field name="VAR" id="low_streak">low_streak</field>
+            <value name="VALUE">
+              <block type="math_arithmetic">
+                <field name="OP">ADD</field>
+                <value name="A"><block type="variables_get"><field name="VAR" id="low_streak">low_streak</field></block></value>
+                <value name="B"><block type="math_number"><field name="NUM">1</field></block></value>
+              </block>
+            </value>
+          </block>
+        </statement>
+
+        <next>
+
+          <!-- ELSE reset -->
+          <block type="variables_set">
+            <field name="VAR" id="low_streak">low_streak</field>
+            <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+          </block>
+
+        </next>
+      </block>
+    </statement>
+  </block>
+
+  <!-- TRADE CONDITION -->
+  <block type="controls_if" x="300" y="150">
+
+    <value name="IF0">
+      <block type="math_arithmetic">
+        <field name="OP">GTE</field>
+        <value name="A"><block type="variables_get"><field name="VAR" id="low_streak">low_streak</field></block></value>
+        <value name="B"><block type="math_number"><field name="NUM">3</field></block></value>
+      </block>
+    </value>
+
+    <statement name="DO0">
+      <block type="trade">
+        <field name="MARKET">R_100</field>
+        <field name="CONTRACT_TYPE">DIGITOVER</field>
+        <field name="BARRIER">3</field>
+        <field name="DURATION">1</field>
+        <field name="DURATION_UNIT">t</field>
+        <value name="AMOUNT"><block type="math_number"><field name="NUM">0.35</field></block></value>
+      </block>
+    </statement>
+
+  </block>
+
+  <!-- AFTER PURCHASE -->
+  <block type="after_purchase" x="600" y="10">
+    <statement name="DO">
+
+      <!-- increment runs -->
+      <block type="variables_set">
+        <field name="VAR" id="run_count">run_count</field>
+        <value name="VALUE">
+          <block type="math_arithmetic">
+            <field name="OP">ADD</field>
+            <value name="A"><block type="variables_get"><field name="VAR">run_count</field></block></value>
+            <value name="B"><block type="math_number"><field name="NUM">1</field></block></value>
+          </block>
+        </value>
+
+        <next>
+
+          <!-- IF LOSS -->
+          <block type="controls_if">
+            <value name="IF0">
+              <block type="contract_check_result">
+                <field name="RESULT">loss</field>
+              </block>
+            </value>
+
+            <statement name="DO0">
+              <block type="variables_set">
+                <field name="VAR" id="loss_count">loss_count</field>
+                <value name="VALUE">
+                  <block type="math_arithmetic">
+                    <field name="OP">ADD</field>
+                    <value name="A"><block type="variables_get"><field name="VAR">loss_count</field></block></value>
+                    <value name="B"><block type="math_number"><field name="NUM">1</field></block></value>
+                  </block>
+                </value>
+              </block>
+            </statement>
+
+            <next>
+
+              <!-- STOP CONDITIONS -->
+              <block type="controls_if">
+
+                <value name="IF0">
+                  <block type="math_arithmetic">
+                    <field name="OP">GTE</field>
+                    <value name="A"><block type="variables_get"><field name="VAR">run_count</field></block></value>
+                    <value name="B"><block type="math_number"><field name="NUM">4</field></block></value>
+                  </block>
+                </value>
+
+                <statement name="DO0"><block type="stop"></block></statement>
+
+                <next>
+
+                  <block type="controls_if">
+                    <value name="IF0">
+                      <block type="math_arithmetic">
+                        <field name="OP">GTE</field>
+                        <value name="A"><block type="variables_get"><field name="VAR">loss_count</field></block></value>
+                        <value name="B"><block type="math_number"><field name="NUM">2</field></block></value>
+                      </block>
+                    </value>
+
+                    <statement name="DO0"><block type="stop"></block></statement>
+
+                    <next>
+
+                      <block type="controls_if">
+                        <value name="IF0">
+                          <block type="math_arithmetic">
+                            <field name="OP">GTE</field>
+                            <value name="A"><block type="total_profit"></block></value>
+                            <value name="B"><block type="math_number"><field name="NUM">3</field></block></value>
+                          </block>
+                        </value>
+
+                        <statement name="DO0"><block type="stop"></block></statement>
+
+                      </block>
+
+                    </next>
+                  </block>
+
+                </next>
+              </block>
+
+            </next>
+          </block>
+
+        </next>
+      </block>
+
+    </statement>
+  </block>
+
+</xml>
